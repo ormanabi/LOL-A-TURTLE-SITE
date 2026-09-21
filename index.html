@@ -1,0 +1,947 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Turtle 🐢 — Roblox Require Script Network | Unanimous Approval</title>
+<meta name="theme-color" content="#0a0a0a">
+<meta name="description" content="Team Turtle 🐢 — three showcase channels, two Discord servers, one rule: unanimous approval. Contact one of the three approvers to get your script showcased.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0a'/%3E%3Ctext x='32' y='46' font-size='38' text-anchor='middle'%3E%F0%9F%90%A2%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>#pre{display:none!important}</style>
+</noscript>
+<style>
+/* ============ 0. TOKENS / RESET ============ */
+:root{
+  --bg:#0a0a0a; --bg2:#111111; --bg3:#151515;
+  --line:#232323; --line2:#2f2f2f;
+  --txt:#eaeaea; --mut:#9a9a9a; --mut2:#5d5d5d;
+  --acc:#00ff85; --err:#ff3b30;
+  --silver:#c3c8cd;
+  --anton:'Anton',Impact,sans-serif;
+  --arch:'Archivo',Helvetica,sans-serif;
+  --mono:'IBM Plex Mono',Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+html,body{overflow-x:clip}
+body{background:var(--bg);color:var(--txt);font:400 15px/1.6 var(--arch);-webkit-font-smoothing:antialiased}
+body.lock,body.menu-open{overflow:hidden}
+img{display:block;background:#141414;-webkit-user-drag:none}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+ul,ol{list-style:none}
+::selection{background:var(--acc);color:#000}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#2c2c2c;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.mono{font-family:var(--mono)}
+.sq{display:inline-block;width:8px;height:8px;background:currentColor;flex:none}
+.caret{color:var(--acc);animation:blink 1.15s infinite;font-style:normal}
+.stroke{color:transparent;-webkit-text-stroke:2px var(--silver)}
+@keyframes blink{0%,54%{opacity:1}55%,100%{opacity:0}}
+html.rv-ready .rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+html.rv-ready .rv.in{opacity:1;transform:none}
+
+/* ============ 1. BUTTONS ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:11px;font:700 12px/1 var(--arch);letter-spacing:.14em;text-transform:uppercase;padding:16px 22px;border:1px solid transparent;transition:background .25s,color .25s,border-color .25s;white-space:nowrap}
+.btn svg{width:13px;height:13px;flex:none;transition:transform .25s}
+.btn-acc{background:var(--acc);color:#000}
+.btn-acc:hover{background:#000;color:var(--acc);border-color:var(--acc)}
+.btn-ghost{border-color:var(--line2);color:var(--txt)}
+.btn-ghost:hover{border-color:var(--acc);color:var(--acc)}
+.btn:hover svg{transform:translate(2px,-2px)}
+.btn-lg{padding:19px 28px;font-size:13px}
+.btn-sm{padding:12px 17px;font-size:11px}
+
+/* ============ 2. OVERLAYS: GRAIN / CURSOR / PRELOADER ============ */
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:2000;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 8s steps(10) infinite}
+@keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-2%,2%)}40%{transform:translate(2%,-1%)}60%{transform:translate(-1%,-2%)}80%{transform:translate(1%,2%)}}
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:3000;opacity:0}
+.cursor-dot{width:6px;height:6px;background:var(--acc);border-radius:50%}
+.cursor-ring{width:34px;height:34px;border:1px solid rgba(0,255,133,.5);border-radius:50%;display:grid;place-items:center;transition:width .25s,height .25s,background-color .25s,border-color .25s}
+.cursor-ring .cl{font:600 8px var(--mono);letter-spacing:.16em;color:#000;opacity:0;transition:opacity .2s}
+.cursor-ring.grow{width:54px;height:54px;border-color:var(--acc)}
+.cursor-ring.lab{width:60px;height:60px;background:var(--acc);border-color:var(--acc)}
+.cursor-ring.lab .cl{opacity:1}
+html.cursor-on,html.cursor-on *{cursor:none!important}
+#pre{position:fixed;inset:0;background:var(--bg);z-index:4000;display:grid;place-items:center;transition:transform .75s cubic-bezier(.75,0,.2,1)}
+#pre.done{transform:translateY(-101%)}
+.pre-in{text-align:center}
+.pre-tag{display:block;font-size:10px;letter-spacing:.3em;color:var(--mut);margin-bottom:26px}
+.pre-num{font:400 clamp(84px,14vw,150px)/1 var(--anton);letter-spacing:.02em}
+.pre-num i{font-style:normal;color:var(--acc);font-size:.4em;vertical-align:.5em;margin-left:.08em}
+.pre-bar{width:220px;height:2px;background:#222;margin:30px auto 0}
+.pre-bar span{display:block;height:2px;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .2s linear}
+
+/* ============ 3. HEADER / MOBILE MENU ============ */
+#hdr{position:fixed;top:0;left:0;right:0;z-index:960;display:flex;align-items:center;gap:24px;height:72px;padding:0 clamp(16px,3vw,42px);border-bottom:1px solid transparent;transition:background .3s,border-color .3s,backdrop-filter .3s}
+#hdr.scrolled{background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-color:var(--line)}
+body.menu-open #hdr{background:transparent;border-color:transparent;backdrop-filter:none}
+.logo{font:400 19px var(--anton);letter-spacing:.04em;white-space:nowrap}
+.logo .emo{font-size:15px;margin-left:5px}
+.hnav{display:flex;gap:22px}
+.hnav a{font:600 11px var(--arch);letter-spacing:.14em;color:var(--mut);padding:6px 0;transition:color .2s}
+.hnav a:hover{color:var(--txt)}
+.hnav a.active{color:var(--acc)}
+.hmeta{margin-left:auto;display:flex;align-items:center;gap:11px;font:500 11px var(--mono);color:var(--mut);letter-spacing:.08em}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);position:relative;flex:none}
+.pulse-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--acc);animation:ping 1.7s ease-out infinite}
+@keyframes ping{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.4);opacity:0}}
+.hdr-cta{flex:none}
+.menu-btn{display:none;flex-direction:column;justify-content:center;gap:6px;width:40px;height:40px;align-items:center;margin-left:auto}
+.menu-btn span{width:22px;height:2px;background:var(--txt);transition:transform .3s}
+body.menu-open .menu-btn span:first-child{transform:translateY(4px) rotate(45deg)}
+body.menu-open .menu-btn span:last-child{transform:translateY(-4px) rotate(-45deg)}
+#mMenu{position:fixed;inset:0;background:var(--bg);z-index:950;display:flex;flex-direction:column;justify-content:space-between;padding:96px 26px 36px;transform:translateY(-101%);visibility:hidden;transition:transform .55s cubic-bezier(.75,0,.2,1),visibility .55s;overflow-y:auto}
+body.menu-open #mMenu{transform:none;visibility:visible}
+#mMenu nav a{display:flex;align-items:baseline;gap:16px;font:400 clamp(28px,7.5vw,40px)/1 var(--anton);padding:14px 0;border-bottom:1px solid var(--line);transition:color .2s,padding-left .25s}
+#mMenu nav a span{font:500 11px var(--mono);color:var(--acc)}
+#mMenu nav a:hover{color:var(--acc);padding-left:10px}
+.mm-meta{font-size:10px;letter-spacing:.14em;line-height:2;color:var(--mut);margin-top:20px}
+
+/* ============ 4. HERO ============ */
+.hero{min-height:100svh;display:flex;flex-direction:column;padding-top:72px}
+.hero-grid{flex:1;display:grid;grid-template-columns:1.05fr .95fr;border-bottom:1px solid var(--line)}
+.hero-copy{padding:clamp(36px,6vh,68px) clamp(18px,4vw,56px) clamp(26px,4vh,40px);display:flex;flex-direction:column;justify-content:center}
+.eyebrow{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.24em;color:var(--mut);margin-bottom:26px}
+.eyebrow .sq{background:var(--acc)}
+.hero-h{font:400 clamp(2.8rem,6.6vw,6rem)/0.96 var(--anton);letter-spacing:.01em;margin-bottom:24px}
+.hl{display:block;overflow:hidden}
+.hl>span{display:inline-block}
+html.rv-ready .hl>span{transform:translateY(112%);transition:transform .95s cubic-bezier(.16,1,.3,1)}
+body.loaded .hl:nth-child(1)>span{transform:none;transition-delay:.12s}
+body.loaded .hl:nth-child(2)>span{transform:none;transition-delay:.24s}
+body.loaded .hl:nth-child(3)>span{transform:none;transition-delay:.36s}
+.hero-p{max-width:560px;color:var(--mut);font-size:14.5px;margin-bottom:30px}
+.hero-p b{color:var(--txt)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:40px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);padding-top:18px;gap:18px}
+.hs{border-left:1px solid var(--line);padding-left:16px}
+.hs:first-child{border-left:0;padding-left:0}
+.hs b{display:flex;align-items:baseline;font:400 30px/1 var(--anton)}
+.hs b i{font-style:normal;color:var(--acc);font-size:20px;margin-left:1px}
+.hs .mono{display:block;font-size:9px;letter-spacing:.18em;color:var(--mut2);margin-top:7px}
+html.rv-ready .lead{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+body.loaded .lead{opacity:1;transform:none}
+body.loaded .d1{transition-delay:.5s}body.loaded .d2{transition-delay:.62s}body.loaded .d3{transition-delay:.74s}body.loaded .d4{transition-delay:.86s}body.loaded .d5{transition-delay:.95s}
+.spec{position:relative;border-left:1px solid var(--line);min-height:420px;display:grid;place-items:center;overflow:hidden;background:#0d0d0d}
+.spec-gridbg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;opacity:.3;-webkit-mask-image:radial-gradient(70% 70% at 50% 50%,#000 30%,transparent 100%);mask-image:radial-gradient(70% 70% at 50% 50%,#000 30%,transparent 100%)}
+.spec-emo{font-size:clamp(150px,20vw,250px);line-height:1;filter:drop-shadow(0 0 60px rgba(0,255,133,.28));animation:float 6s ease-in-out infinite;will-change:transform}
+@keyframes float{50%{transform:translateY(-14px)}}
+.spec-scan{position:absolute;left:0;right:0;top:-2px;height:2px;background:linear-gradient(90deg,transparent,rgba(0,255,133,.65),transparent);animation:scan 4.5s linear infinite}
+@keyframes scan{0%{top:-2px}100%{top:100%}}
+.spec-corner{position:absolute;width:18px;height:18px;border:2px solid var(--acc)}
+.spec-corner.tl{top:14px;left:14px;border-right:0;border-bottom:0}
+.spec-corner.tr{top:14px;right:14px;border-left:0;border-bottom:0}
+.spec-corner.bl{bottom:14px;left:14px;border-right:0;border-top:0}
+.spec-corner.br{bottom:14px;right:14px;border-left:0;border-top:0}
+.spec-tag{position:absolute;top:20px;left:50%;transform:translateX(-50%);font:600 9px var(--mono);letter-spacing:.24em;color:var(--mut)}
+.spec-cap{position:absolute;left:22px;bottom:20px;border-left:2px solid var(--acc);padding-left:14px;font-size:10px;letter-spacing:.14em;line-height:1.9;color:var(--silver)}
+.spec-cap span{display:block;color:var(--mut)}
+.spec-chip{position:absolute;top:38px;right:20px;font-size:9px;letter-spacing:.2em;color:var(--silver);border:1px solid var(--line2);background:rgba(10,10,10,.6);padding:7px 10px;backdrop-filter:blur(4px)}
+.hero-team{display:flex;border-top:1px solid var(--line)}
+.team-label{flex:none;width:232px;border-right:1px solid var(--line);padding:16px 22px;display:flex;flex-direction:column;justify-content:center;gap:5px;transition:background .25s}
+.team-label:hover{background:var(--bg2)}
+.team-label .t1{font-size:10px;letter-spacing:.2em;color:var(--acc)}
+.team-label .t2{font-size:9px;letter-spacing:.16em;color:var(--mut2)}
+.team-marquee{flex:1;overflow:hidden}
+.tm-track{display:flex;width:max-content;height:100%;animation:mq 38s linear infinite}
+.team-marquee:hover .tm-track{animation-play-state:paused}
+.team-item{display:flex;align-items:center;gap:14px;padding:0 26px;border-right:1px solid var(--line);transition:background .25s}
+.team-item img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--line2)}
+.team-item b{font:700 12px var(--arch);letter-spacing:.1em;display:block}
+.team-item .mono{display:block;font-size:9px;letter-spacing:.16em;color:var(--mut2);margin-top:4px}
+.team-item:hover{background:var(--bg2)}
+.team-item:hover b{color:var(--acc)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ============ 5. TICKER ============ */
+.ticker{background:var(--acc);color:#000;overflow:hidden}
+.tk-track{display:flex;width:max-content;animation:mq 30s linear infinite}
+.tk-set{display:flex;align-items:center}
+.tk-set span{font:400 19px/1 var(--anton);letter-spacing:.05em;white-space:nowrap;padding:13px 0}
+.tk-set .sq{margin:0 30px;width:9px;height:9px}
+
+/* ============ 6. SECTION SCAFFOLD ============ */
+.sec{padding:clamp(56px,8vh,88px) clamp(18px,4vw,56px);border-top:1px solid var(--line)}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:38px}
+.sh-left{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.sh-idx{font:600 12px var(--mono);letter-spacing:.2em;color:var(--acc)}
+.sec-head h2{font:400 clamp(2rem,4vw,3.3rem)/1 var(--anton);letter-spacing:.015em}
+.sh-note{font-size:10px;letter-spacing:.14em;line-height:1.9;color:var(--mut);text-align:right;max-width:460px}
+.fine-note{font-size:9.5px;letter-spacing:.14em;color:var(--mut2);margin-top:22px;line-height:1.9}
+
+/* ============ 7. PIPELINE ============ */
+.std-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,64px);align-items:start}
+.sec-idx-row{font:600 11px var(--mono);letter-spacing:.2em;color:var(--acc);margin-bottom:20px}
+.std-h{font:400 clamp(2.3rem,4.6vw,4.1rem)/1.02 var(--anton);letter-spacing:.015em;margin-bottom:26px}
+.std-h em{font-style:normal;color:var(--acc)}
+.std-p{color:var(--mut);font-size:14px;max-width:54ch;margin-bottom:26px}
+.psteps{border-top:1px solid var(--line)}
+.pstep{display:grid;grid-template-columns:76px 1fr;gap:16px;align-items:start;padding:18px 0;border-bottom:1px solid var(--line)}
+.pstep .no{font:400 30px/1 var(--anton);color:transparent;-webkit-text-stroke:1.5px #3a3a3a;transition:color .3s,-webkit-text-stroke-color .3s}
+.pstep:hover .no{color:var(--acc);-webkit-text-stroke:0}
+.pstep b{display:block;font:700 13.5px/1.4 var(--arch);letter-spacing:.06em}
+.pstep span{display:block;font-size:12.5px;color:var(--mut);margin-top:4px;line-height:1.65}
+.term{border:1px solid var(--line2);background:#0b0b0b}
+.term-head{display:flex;align-items:center;gap:12px;padding:11px 15px;border-bottom:1px solid var(--line);font:600 9.5px var(--mono);letter-spacing:.18em;color:var(--mut)}
+.term-head .run{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font:700 9.5px var(--mono);letter-spacing:.14em;color:var(--acc);border:1px solid rgba(0,255,133,.4);padding:6px 10px;transition:background .2s,color .2s;cursor:pointer}
+.term-head .run:hover{background:var(--acc);color:#000}
+.term-head .run:disabled{opacity:.4;pointer-events:none}
+.term-body{padding:16px 15px;min-height:250px;font:500 12.5px/2 var(--mono);color:var(--silver);overflow-x:auto}
+.term-body .t-cmd{color:var(--txt)}
+.term-body .t-ok{color:var(--acc)}
+.term-body .t-out{color:var(--mut)}
+.term-body .t-done{color:var(--txt);font-weight:600}
+.tcaret{display:inline-block;width:8px;height:14px;background:var(--acc);vertical-align:-2px;animation:blink 1s infinite}
+.term-foot{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:11px 15px;border-top:1px solid var(--line);font:500 9px var(--mono);letter-spacing:.14em;color:var(--mut2)}
+.term-foot .sq{width:5px;height:5px;background:var(--acc)}
+.term-note{font-size:9px;letter-spacing:.16em;color:var(--mut2);margin-top:10px}
+.std-stats{display:flex;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:26px}
+.std-stat{padding:18px 26px 0 0;margin-right:26px;border-right:1px solid var(--line);padding-right:26px}
+.std-stat:last-child{border-right:0}
+.std-stat b{font:400 26px/1 var(--anton);color:var(--silver)}
+.std-stat span{display:block;font:500 8.5px var(--mono);letter-spacing:.18em;color:var(--mut2);margin-top:7px}
+
+/* ============ 8. APPROVERS ============ */
+.appr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.appr{position:relative;border:1px solid var(--line2);background:var(--bg2);padding:28px;overflow:hidden;transition:border-color .25s}
+.appr:hover{border-color:var(--acc)}
+.appr-no{position:absolute;top:-14px;right:8px;font:400 110px/1 var(--anton);color:transparent;-webkit-text-stroke:1px #262626;pointer-events:none;user-select:none}
+.appr-top{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.appr-vote{font:600 9.5px var(--mono);letter-spacing:.22em;color:var(--acc);border:1px solid rgba(0,255,133,.4);padding:6px 10px}
+.appr>img{width:84px;height:84px;border-radius:50%;object-fit:cover;border:1px solid var(--line2);background:#0b0b0b}
+.appr-name{font:400 26px/1 var(--anton);letter-spacing:.02em;margin-top:18px}
+.appr-handle{display:inline-block;font:500 11px var(--mono);letter-spacing:.1em;color:var(--silver);border-bottom:1px solid var(--line2);margin-top:8px;transition:color .2s,border-color .2s}
+.appr-handle:hover{color:var(--acc);border-color:var(--acc)}
+.appr-desc{font-size:12.5px;line-height:1.7;color:var(--mut);margin:16px 0 18px;min-height:64px}
+.appr-veto{display:flex;align-items:center;gap:9px;font:600 9px var(--mono);letter-spacing:.16em;color:var(--mut);border-top:1px solid var(--line);padding-top:14px;margin-bottom:18px}
+.appr-veto b{color:var(--acc)}
+.appr-act{display:flex;gap:10px;flex-wrap:wrap}
+.chain-wrap{margin-top:34px;border:1px solid var(--line2);background:var(--bg2);padding:26px}
+.chain-title{font:600 9.5px var(--mono);letter-spacing:.22em;color:var(--mut);margin-bottom:20px}
+.chain{display:flex;align-items:stretch;gap:12px;flex-wrap:wrap}
+.vnode{flex:1;min-width:150px;border:1px solid var(--line2);background:#0b0b0b;padding:18px 14px;text-align:center;transition:border-color .2s}
+.vnode:hover{border-color:var(--acc)}
+.vnode img{width:52px;height:52px;border-radius:50%;object-fit:cover;margin:0 auto 10px;border:1px solid var(--line2);background:#141414}
+.vnode b{display:block;font:700 11px var(--arch);letter-spacing:.1em}
+.vnode span{display:block;font:500 9px var(--mono);letter-spacing:.16em;color:var(--acc);margin-top:7px}
+.varrow{align-self:center;color:var(--acc);font:400 20px var(--anton);padding:0 2px}
+.vfinal{flex:1;min-width:150px;border:1px solid rgba(0,255,133,.5);background:rgba(0,255,133,.06);padding:18px 14px;display:flex;flex-direction:column;justify-content:center;text-align:center}
+.vfinal b{font:400 24px/1 var(--anton);color:var(--acc)}
+.vfinal span{display:block;font:500 8.5px var(--mono);letter-spacing:.18em;color:var(--silver);margin-top:8px}
+
+/* ============ 9. DISCORD ============ */
+.dc-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.dc-card{position:relative;border:1px solid var(--line2);background:var(--bg2);padding:28px;overflow:hidden;transition:border-color .25s}
+.dc-card:hover{border-color:var(--acc)}
+.dc-emo{position:absolute;right:-8px;bottom:-30px;font-size:150px;line-height:1;opacity:.06;transform:rotate(-14deg);pointer-events:none;user-select:none}
+.dc-top{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.dc-top>svg{width:24px;height:24px;color:var(--acc);flex:none}
+.dc-tag{font:600 9.5px var(--mono);letter-spacing:.22em;color:var(--mut2)}
+.dc-name{font:400 clamp(24px,2.8vw,34px)/1 var(--anton);letter-spacing:.02em;text-transform:uppercase;margin-top:6px}
+.dc-live{display:flex;align-items:center;gap:9px;font:500 10px var(--mono);letter-spacing:.14em;color:var(--mut);margin-top:14px;min-height:16px}
+.dc-live.real{color:var(--acc)}
+.dc-live .pulse-dot{width:6px;height:6px}
+.dc-inv{display:flex;align-items:center;gap:10px;border:1px dashed var(--line2);padding:12px 14px;margin:20px 0 18px;flex-wrap:wrap}
+.dc-inv>span{flex:1;min-width:160px;font:500 11.5px var(--mono);letter-spacing:.08em;color:var(--silver);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.copy-btn{flex:none;display:inline-flex;align-items:center;gap:8px;font:700 10px var(--arch);letter-spacing:.14em;border:1px solid var(--line2);padding:9px 12px;color:var(--mut);transition:border-color .2s,color .2s;background:#0b0b0b;cursor:pointer}
+.copy-btn:hover{border-color:var(--acc);color:var(--acc)}
+.copy-btn svg{width:12px;height:12px}
+
+/* ============ 10. RULES ============ */
+.sec-standard{background:#0d0d0d}
+.rules li{display:grid;grid-template-columns:76px 1fr;align-items:center;padding:21px 0;border-bottom:1px solid var(--line)}
+.rules li:first-child{border-top:1px solid var(--line)}
+.r-no{font:400 30px/1 var(--anton);color:transparent;-webkit-text-stroke:1.5px #3a3a3a;transition:color .3s}
+.rules li:hover .r-no{color:var(--acc);-webkit-text-stroke:0}
+.rules p{font:700 14.5px/1.5 var(--arch);letter-spacing:.05em}
+.rules p span{display:block;font:500 12px/1.6 var(--arch);letter-spacing:.02em;color:var(--mut);margin-top:5px}
+
+/* ============ 11. FAQ ============ */
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item:first-child{border-top:1px solid var(--line)}
+.faq-q{width:100%;display:flex;align-items:center;gap:18px;padding:20px 4px;text-align:left;transition:background .2s}
+.faq-q:hover{background:var(--bg2)}
+.faq-q .fno{font:600 11px var(--mono);letter-spacing:.14em;color:var(--acc);flex:none}
+.faq-q .fq{flex:1;font:700 14.5px var(--arch);letter-spacing:.05em}
+.faq-q .tgl{width:30px;height:30px;border:1px solid var(--line2);display:grid;place-items:center;color:var(--mut);transition:transform .35s,border-color .25s,color .25s;flex:none}
+.faq-q .tgl svg{width:11px;height:11px}
+.faq-item.open .tgl{transform:rotate(45deg);border-color:var(--acc);color:var(--acc)}
+.exp{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1)}
+.exp>div{overflow:hidden;min-height:0}
+.open>.exp{grid-template-rows:1fr}
+.faq-a{padding:0 4px 22px 41px;font-size:13.5px;line-height:1.75;color:var(--mut);max-width:70ch}
+.faq-a b{color:var(--txt)}
+
+/* ============ 12. FOOTER ============ */
+footer{border-top:1px solid var(--line)}
+.f-grid{display:grid;grid-template-columns:1.3fr .8fr .9fr 1.1fr;gap:44px;padding:60px clamp(18px,4vw,56px) 44px}
+.f-brand p{font-size:12.5px;line-height:1.8;color:var(--mut);max-width:34ch;margin-top:16px}
+.f-col h4{font:500 9.5px var(--mono);letter-spacing:.24em;color:var(--mut2);margin-bottom:18px}
+.f-col .big-link{font:400 18px/1 var(--anton);letter-spacing:.04em;display:inline-flex;align-items:center;gap:9px;margin-bottom:18px;transition:color .2s}
+.f-col .big-link svg{width:13px;height:13px;color:var(--acc)}
+.f-col .big-link:hover{color:var(--acc)}
+.f-addr{font:500 11px var(--mono);letter-spacing:.08em;line-height:2;color:var(--mut)}
+.hrow{display:flex;justify-content:space-between;gap:20px;font:500 10.5px var(--mono);letter-spacing:.1em;color:var(--mut);padding:9px 0;border-bottom:1px solid var(--line)}
+.hrow span:last-child{color:var(--silver)}
+.f-status{display:flex;align-items:center;gap:10px;font:600 10px var(--mono);letter-spacing:.16em;color:var(--acc);margin-top:16px}
+.f-status .mono{margin-left:auto;color:var(--mut2)}
+.f-links a{display:flex;align-items:center;gap:9px;font:700 11.5px var(--arch);letter-spacing:.1em;padding:8px 0;color:var(--mut);transition:color .2s}
+.f-links a svg{width:12px;height:12px;color:var(--acc);flex:none}
+.f-links a:hover{color:var(--txt)}
+.f-watermark{font:400 clamp(40px,9.5vw,170px)/0.9 var(--anton);text-align:center;color:transparent;-webkit-text-stroke:1px #262626;user-select:none;white-space:nowrap;transition:-webkit-text-stroke-color .4s;padding:0 10px}
+.f-watermark:hover{-webkit-text-stroke-color:#3d3d3d}
+.f-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding:17px clamp(18px,4vw,56px);font:500 9.5px var(--mono);letter-spacing:.16em;color:var(--mut2)}
+#toTop{display:inline-flex;align-items:center;gap:8px;font:600 9.5px var(--mono);letter-spacing:.18em;color:var(--mut);transition:color .2s;cursor:pointer}
+#toTop svg{width:11px;height:11px;transform:rotate(-90deg);color:var(--acc)}
+#toTop:hover{color:var(--acc)}
+
+/* ============ 13. TOASTS ============ */
+#toasts{position:fixed;right:20px;bottom:20px;z-index:2500;display:flex;flex-direction:column;gap:10px}
+.toast{display:flex;gap:14px;align-items:flex-start;background:#121212;border:1px solid var(--line2);border-left:3px solid var(--acc);padding:14px 14px 14px 16px;min-width:280px;max-width:370px;transform:translateX(120%);transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.toast.show{transform:none}
+.toast b{display:block;font:800 11.5px var(--arch);letter-spacing:.1em}
+.toast span{display:block;font:400 10.5px var(--mono);letter-spacing:.04em;color:var(--mut);margin-top:5px;line-height:1.6}
+.toast button{color:var(--mut2);flex:none;transition:color .2s;cursor:pointer}
+.toast button:hover{color:var(--txt)}
+.toast button svg{width:12px;height:12px}
+
+/* ============ 14. RESPONSIVE ============ */
+@media (max-width:1180px){.appr-grid{grid-template-columns:1fr}}
+@media (max-width:1080px){.hmeta{display:none}}
+@media (max-width:960px){
+  .hnav,.hdr-cta{display:none}
+  .menu-btn{display:flex}
+  .hero-grid{grid-template-columns:1fr}
+  .spec{min-height:54vh;border-left:0;border-top:1px solid var(--line)}
+  .std-grid,.dc-grid{grid-template-columns:1fr}
+  .f-grid{grid-template-columns:1fr 1fr;gap:38px}
+  .hero-stats{grid-template-columns:1fr 1fr;row-gap:18px}
+  .hs:nth-child(odd){border-left:0;padding-left:0}
+}
+@media (max-width:600px){
+  .sec{padding:52px 16px}
+  .sec-head{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:28px}
+  .sh-note{text-align:left}
+  .team-label{width:150px;padding:14px}
+  .team-label .t2{display:none}
+  .team-item{padding:0 16px;gap:10px}
+  .f-grid{grid-template-columns:1fr;padding-top:48px}
+  .dc-card,.appr{padding:22px 18px}
+  .tk-set span{font-size:16px}
+  .std-stat{padding-right:16px;margin-right:16px}
+  .term-body{font-size:11px}
+  .chain{flex-direction:column}
+  .varrow{transform:rotate(90deg);text-align:center}
+  .faq-a{padding-left:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<noscript><p style="padding:100px 24px 20px;font-family:monospace;color:#00ff85">THIS SITE NEEDS JAVASCRIPT — THE SHELL WON'T OPEN 🐢</p></noscript>
+
+<!-- Preloader -->
+<div id="pre" aria-hidden="true">
+  <div class="pre-in">
+    <span class="pre-tag mono">TEAM TURTLE 🐢 — LOADING THE SHELL</span>
+    <div class="pre-num"><span id="preNum">000</span><i>%</i></div>
+    <div class="pre-bar"><span id="preBar"></span></div>
+  </div>
+</div>
+
+<!-- Independent preloader driver -->
+<script>
+(function(){
+  var pre=document.getElementById('pre');
+  if(!pre)return;
+  document.body.classList.add('lock');
+  var num=document.getElementById('preNum'),bar=document.getElementById('preBar');
+  var t0=Date.now(),DUR=1400,finished=false;
+  function finish(){
+    if(finished)return;finished=true;
+    pre.classList.add('done');
+    document.body.classList.add('loaded');
+    document.body.classList.remove('lock');
+    setTimeout(function(){if(pre.parentNode)pre.parentNode.removeChild(pre)},900);
+    window.__ttDone=true;
+    if(typeof window.__ttInit==='function'){try{window.__ttInit()}catch(e){console.error(e)}}
+  }
+  var iv=setInterval(function(){
+    var p=Math.min(1,(Date.now()-t0)/DUR),e=1-Math.pow(1-p,3),v=Math.round(e*100);
+    if(num)num.textContent=String(v).padStart(3,'0');
+    if(bar)bar.style.transform='scaleX('+e+')';
+    if(p>=1){clearInterval(iv);finish()}
+  },30);
+  setTimeout(finish,DUR+1500);
+})();
+</script>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"><span class="cl">COPY</span></div>
+
+<!-- Header -->
+<header id="hdr">
+  <a href="#top" class="logo">TEAM TURTLE<span class="emo">🐢</span></a>
+  <nav class="hnav" aria-label="Primary">
+    <a href="#pipeline" data-nav>PIPELINE</a>
+    <a href="#approvers" data-nav>APPROVERS</a>
+    <a href="#discord" data-nav>DISCORD</a>
+    <a href="#rules" data-nav>RULES</a>
+    <a href="#faq" data-nav>FAQ</a>
+  </nav>
+  <div class="hmeta">
+    <span class="pulse-dot"></span>
+    <span id="hdrClock" class="mono">--:--:--</span>
+    <span class="mono">SHELL ONLINE</span>
+  </div>
+  <a href="#discord" class="btn btn-acc btn-sm hdr-cta">JOIN DISCORD 🐢</a>
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+
+<!-- Mobile menu -->
+<div id="mMenu" aria-hidden="true">
+  <nav>
+    <a href="#pipeline"><span>01</span>PIPELINE</a>
+    <a href="#approvers"><span>02</span>APPROVERS</a>
+    <a href="#discord"><span>03</span>DISCORD</a>
+    <a href="#rules"><span>04</span>RULES</a>
+    <a href="#faq"><span>05</span>FAQ</a>
+  </nav>
+  <div class="mm-meta mono">TEAM TURTLE 🐢 — REQUIRE SCRIPT NETWORK<br>ONE RULE: UNANIMOUS APPROVAL. 3/3 OR NOTHING.<br>discord.gg/PCBs5xGKm · discord.gg/VzBSPjY97</div>
+</div>
+
+<main id="top">
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-grid" id="heroGrid">
+      <div class="hero-copy">
+        <p class="eyebrow mono lead"><span class="sq"></span>🐢 TEAM TURTLE — ROBLOX REQUIRE SCRIPT NETWORK — SLOW &amp; STEADY</p>
+        <h1 class="hero-h">
+          <span class="hl"><span>TEAM</span></span>
+          <span class="hl"><span>TURTLE</span></span>
+          <span class="hl"><span class="stroke">NETWORK<span class="caret">_</span></span></span>
+        </h1>
+        <p class="hero-p lead d1">Three showcase channels. Two Discord servers. One rule: <b>unanimous approval</b>. Every script that ships through this network gets an independent vote from all three channels — <b>3/3 or it doesn't go out</b>. No fake numbers on this page, no padding, no backdoors. Just a shell that moves slow and holds the line.</p>
+        <div class="hero-cta lead d2">
+          <a href="#pipeline" class="btn btn-acc btn-lg">HOW IT WORKS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+          <a href="#discord" class="btn btn-ghost btn-lg">JOIN THE SHELL 🐢</a>
+        </div>
+        <div class="hero-stats lead d3">
+          <div class="hs"><b><span class="count" data-to="3">0</span></b><span class="mono">APPROVER CHANNELS</span></div>
+          <div class="hs"><b><span class="count" data-to="2">0</span></b><span class="mono">DISCORD SERVERS</span></div>
+          <div class="hs"><b>3<i>/3</i></b><span class="mono">VOTES TO SHIP</span></div>
+          <div class="hs"><b><span class="count" data-to="100">0</span><i>%</i></b><span class="mono">UNANIMOUS — ALWAYS</span></div>
+        </div>
+      </div>
+      <div class="spec lead d4" id="spec">
+        <div class="spec-gridbg"></div>
+        <div class="spec-scan"></div>
+        <span class="spec-corner tl"></span><span class="spec-corner tr"></span>
+        <span class="spec-corner bl"></span><span class="spec-corner br"></span>
+        <span class="spec-tag mono">SPECIMEN — SHELL v2.4</span>
+        <span class="spec-chip mono">SLOW &amp; STEADY</span>
+        <div class="spec-emo" id="specEmo" aria-hidden="true">🐢</div>
+        <p class="spec-cap mono">THE SHELL IS THE STANDARD<span>IT CARRIES THE WHOLE CREW — OR NOTHING MOVES.</span></p>
+      </div>
+    </div>
+    <div class="hero-team lead d5">
+      <a class="team-label" href="#approvers">
+        <span class="t1 mono">THE THREE APPROVERS</span>
+        <span class="t2 mono">CLICK A FACE — MEET THE VOTE</span>
+      </a>
+      <div class="team-marquee"><div class="tm-track" id="teamTrack"></div></div>
+    </div>
+  </section>
+
+  <!-- ============ TICKER ============ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="tk-track" id="tkTrack">
+      <div class="tk-set">
+        <span>TEAM TURTLE 🐢</span><i class="sq"></i><span>UNANIMOUS OR NOTHING</span><i class="sq"></i><span>3/3 VOTES</span><i class="sq"></i><span>NO BACKDOORS</span><i class="sq"></i><span>CREDIT ALWAYS</span><i class="sq"></i><span>SLOW &amp; STEADY</span><i class="sq"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 01 PIPELINE ============ -->
+  <section class="sec" id="pipeline">
+    <div class="sec-head rv">
+      <div class="sh-left"><span class="sh-idx">/01</span><h2>THE PIPELINE</h2></div>
+      <p class="sh-note mono">EVERY SCRIPT WALKS THE SAME ROAD.<br>NOBODY SKIPS THE VOTE. NOBODY EVER HAS.</p>
+    </div>
+    <div class="std-grid">
+      <div>
+        <p class="sec-idx-row rv">/01 — FIRST MESSAGE TO SHOWCASE</p>
+        <h2 class="std-h rv">FROM DM<br>TO <em>SHOWCASE</em></h2>
+        <p class="std-p rv">This network doesn't take scripts from strangers. It takes scripts that walked the full road — a direct message, three independent votes, a showcase recording, and a Discord announcement. If any step fails, the case is closed with a written reason. There is no form to fill — the first message is the whole beginning.</p>
+        <ol class="psteps">
+          <li class="pstep rv"><span class="no">01</span><div><b>MESSAGE ONE OF THE THREE</b><span>Contact any one approver through their channel's About page or business email. Tell them what you built. That message opens the case — the first yes opens the door to the rest.</span></div></li>
+          <li class="pstep rv"><span class="no">02</span><div><b>FIRST REVIEW</b><span>The approver you messaged checks the script: does it work, who made it, do you have permission to share it, is the source clean.</span></div></li>
+          <li class="pstep rv"><span class="no">03</span><div><b>THE OTHER TWO VOTES</b><span>If vote one passes, the case goes to the remaining two channels. Each votes independently. No group pressure, no shortcut.</span></div></li>
+          <li class="pstep rv"><span class="no">04</span><div><b>3/3 OR CLOSED</b><span>Unanimous yes → the script moves to showcase. Any "no" → the case is closed and the reason is written down. No drama, no re-litigating.</span></div></li>
+          <li class="pstep rv"><span class="no">05</span><div><b>SHOWCASE + ANNOUNCE</b><span>A partner channel records the showcase with full credit, and the result is announced across the two Discord servers.</span></div></li>
+        </ol>
+      </div>
+      <div>
+        <div class="term rv">
+          <div class="term-head">
+            <span class="pulse-dot"></span>
+            <span>TURTLE CASE RUNNER — SIMULATION</span>
+            <button class="run" id="termRun" type="button">REPLAY</button>
+          </div>
+          <div class="term-body" id="termBody" aria-live="polite"></div>
+          <div class="term-foot">
+            <span><span class="sq"></span> CONTACT</span>
+            <span><span class="sq"></span> VOTE 1/3</span>
+            <span><span class="sq"></span> VOTE 2/3</span>
+            <span><span class="sq"></span> VOTE 3/3</span>
+            <span><span class="sq"></span> ANNOUNCE</span>
+          </div>
+        </div>
+        <p class="term-note mono rv">* THIS IS A SIMULATION OF THE CASE FLOW — NOT A REAL LOADER OUTPUT.</p>
+        <div class="std-stats rv">
+          <div class="std-stat"><b>3/3</b><span>VOTES REQUIRED</span></div>
+          <div class="std-stat"><b>1</b><span>"NO" KILLS THE CASE</span></div>
+          <div class="std-stat"><b>0</b><span>BACKDOOR TOLERANCE</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 APPROVERS ============ -->
+  <section class="sec" id="approvers">
+    <div class="sec-head rv">
+      <div class="sh-left"><span class="sh-idx">/02</span><h2>THE THREE APPROVERS</h2></div>
+      <p class="sh-note mono">THREE SHOWCASE CHANNELS. THREE INDEPENDENT VOTES.<br>ONE OF THEM SAYS NO — THE SCRIPT STAYS OUT.</p>
+    </div>
+    <div class="appr-grid" id="apprGrid"></div>
+    <div class="chain-wrap rv">
+      <p class="chain-title mono">THE VOTE CHAIN — HOW A CASE MOVES</p>
+      <div class="chain" id="voteChain"></div>
+      <p class="fine-note mono">AVATARS ARE PULLED LIVE FROM EACH CHANNEL VIA UNAVATAR.IO — IF ONE FAILS TO LOAD, THE FALLBACK IS A NUMBERED PLACEHOLDER, NOT A STOCK PHOTO.</p>
+    </div>
+  </section>
+
+  <!-- ============ 03 DISCORD ============ -->
+  <section class="sec" id="discord">
+    <div class="sec-head rv">
+      <div class="sh-left"><span class="sh-idx">/03</span><h2>DISCORD SERVERS</h2></div>
+      <p class="sh-note mono">TWO REAL INVITES.<br>SERVER NAME &amp; COUNTS PULLED LIVE FROM DISCORD'S PUBLIC API.</p>
+    </div>
+    <div class="dc-grid" id="dcGrid"></div>
+    <p class="fine-note mono rv">SERVER NAMES AND MEMBER COUNTS ARE FETCHED LIVE FROM DISCORD'S PUBLIC INVITE API AT PAGE LOAD. IF YOUR BROWSER OR AN EXTENSION BLOCKS THE REQUEST, THE CARD SAYS SO — IT NEVER SHOWS MADE-UP NUMBERS. OPEN THE INVITE AND SEE THE SERVER FOR YOURSELF.</p>
+  </section>
+
+  <!-- ============ 04 RULES ============ -->
+  <section class="sec sec-standard" id="rules">
+    <div class="sec-head rv">
+      <div class="sh-left"><span class="sh-idx">/04</span><h2>THE FIVE RULES</h2></div>
+      <p class="sh-note mono">SHORT LIST. ZERO FLEXIBILITY.<br>THE SHELL ONLY WORKS IF IT'S HARD.</p>
+    </div>
+    <ol class="rules">
+      <li class="rv"><span class="r-no">01</span><p>CONTACT FIRST<span>MESSAGE ONE OF THE THREE APPROVERS DIRECTLY. THERE IS NO FORM ON THIS SITE — YOUR MESSAGE IS THE FIRST STEP.</span></p></li>
+      <li class="rv"><span class="r-no">02</span><p>3/3 OR NOTHING<span>EVERY APPROVER VOTES INDEPENDENTLY. ONE "NO" CLOSES THE CASE — WITH A WRITTEN REASON.</span></p></li>
+      <li class="rv"><span class="r-no">03</span><p>YOURS, OR PERMITTED<span>YOU NEED THE RIGHT TO SHARE THE SCRIPT. STOLEN WORK IS AN AUTOMATIC NO FROM ALL THREE.</span></p></li>
+      <li class="rv"><span class="r-no">04</span><p>NO BACKDOORS. EVER.<span>TOKEN LOGGERS, MALICIOUS OBFUSCATION, COOKIE GRABBERS — INSTANT PERMANENT BAN FROM THE SHELL.</span></p></li>
+      <li class="rv"><span class="r-no">05</span><p>CREDIT ALWAYS<span>EVERY SHOWCASE NAMES THE CREATOR. ANONYMOUS UPLOADS DON'T EXIST IN THIS NETWORK.</span></p></li>
+    </ol>
+  </section>
+
+  <!-- ============ 05 FAQ ============ -->
+  <section class="sec" id="faq">
+    <div class="sec-head rv">
+      <div class="sh-left"><span class="sh-idx">/05</span><h2>QUESTIONS, ANSWERED</h2></div>
+      <p class="sh-note mono">IF IT'S NOT ON THIS LIST,<br>ASK IN THE SHELL ON DISCORD.</p>
+    </div>
+    <div id="faqList"></div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="f-grid">
+    <div class="f-brand">
+      <a href="#top" class="logo">TEAM TURTLE<span class="emo">🐢</span></a>
+      <p>A network that would rather be small and true than big and padded. Every script that ships earned three yes votes. The shell carries the crew — or nothing moves.</p>
+    </div>
+    <div class="f-col">
+      <h4>NETWORK</h4>
+      <a class="big-link" href="#approvers">THE THREE APPROVERS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <p class="f-addr">TEAM TURTLE 🐢<br>REQUIRE SCRIPT NETWORK<br>STATUS BOARD: THIS PAGE</p>
+    </div>
+    <div class="f-col">
+      <h4>PROCESS</h4>
+      <div class="hrow"><span>FIRST CONTACT</span><span>DIRECT MESSAGE</span></div>
+      <div class="hrow"><span>REVIEWS</span><span>BY APPROVERS' SCHEDULE</span></div>
+      <div class="hrow"><span>RESULTS</span><span>POSTED ON DISCORD</span></div>
+      <div class="f-status"><span class="pulse-dot"></span><span>SHELL ONLINE</span><span class="mono" id="footClock">--:--:--</span></div>
+    </div>
+    <div class="f-col f-links">
+      <h4>REAL LINKS ONLY</h4>
+      <a href="https://discord.gg/PCBs5xGKm" target="_blank" rel="noopener">DISCORD — INVITE 01 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a href="https://discord.gg/VzBSPjY97" target="_blank" rel="noopener">DISCORD — INVITE 02 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a href="https://www.youtube.com/@GekdakeShowcase" target="_blank" rel="noopener">YT — @GekdakeShowcase <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a href="https://www.youtube.com/@builder_notreal" target="_blank" rel="noopener">YT — @builder_notreal <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <a href="https://www.youtube.com/@justarandomPS5" target="_blank" rel="noopener">YT — @justarandomPS5 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </div>
+  </div>
+  <div class="f-watermark" aria-hidden="true">TEAM TURTLE</div>
+  <div class="f-bottom">
+    <span>© <span id="yr">2025</span> TEAM TURTLE 🐢 — FAN-MADE NETWORK</span>
+    <span>NOT AFFILIATED WITH ROBLOX CORPORATION — SHOWCASE PURPOSES ONLY</span>
+    <button id="toTop" type="button">BACK TO TOP <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+  </div>
+</footer>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+/* ============ TEAM TURTLE — MAIN APP ============ */
+const $=(s,c=document)=>c.querySelector(s);
+const $$=(s,c=document)=>[...c.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const IC={
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>',
+  arr:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M8 7h9v9"/></svg>',
+  copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="1"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>',
+  discord:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>'
+};
+
+/* ---------- REVEALS — defined FIRST, registered for the preloader ---------- */
+function initReveals(){
+  if(window.__ttRevealed)return;
+  window.__ttRevealed=true;
+  document.documentElement.classList.add('rv-ready');
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+  }),{threshold:.1,rootMargin:'0px 0px -5%'});
+  $$('.rv').forEach(el=>io.observe(el));
+  const cio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    cio.unobserve(e.target);
+    const el=e.target,to=+el.dataset.to,s=performance.now();
+    (function f(t){
+      const p=Math.min(1,(t-s)/1200);
+      el.textContent=Math.round(to*(1-Math.pow(1-p,3)));
+      if(p<1)requestAnimationFrame(f);
+    })(s);
+  }),{threshold:.5});
+  $$('.count').forEach(el=>cio.observe(el));
+}
+window.__ttInit=initReveals;
+if(window.__ttDone)initReveals();
+
+/* ---------- EVERYTHING ELSE — isolated ---------- */
+try{
+
+/* ---------- REAL DATA — only links the owners control ---------- */
+const APPROVERS=[
+  {no:'01',name:'GEKDAKE SHOWCASE',handle:'@GekdakeShowcase',yt:'GekdakeShowcase',
+   url:'https://www.youtube.com/@GekdakeShowcase',
+   desc:'Runs one of the showcase channels. Opens cases, runs the first review, and records the showcase once the vote passes.'},
+  {no:'02',name:'BUILDER_NOTREAL',handle:'@builder_notreal',yt:'builder_notreal',
+   url:'https://www.youtube.com/@builder_notreal',
+   desc:'Second independent vote on every case. If the first approver passes a script, this channel reviews it cold — no context, no bias.'},
+  {no:'03',name:'JUST A RANDOM PS5',handle:'@justarandomPS5',yt:'justarandomPS5',
+   url:'https://www.youtube.com/@justarandomPS5',
+   desc:'Third and final vote. Known for heavy, experimental scripts and long test sessions — the last gate before a case is marked 3/3.'}
+];
+
+/* Real invites only — name & counts fetched live, never hardcoded */
+const SERVERS=[
+  {no:'SERVER 01',invite:'PCBs5xGKm',url:'https://discord.gg/PCBs5xGKm'},
+  {no:'SERVER 02',invite:'VzBSPjY97',url:'https://discord.gg/VzBSPjY97'}
+];
+
+const FAQ=[
+  {q:'How do I get a script into the network?',
+   a:'<b>Message one of the three approvers directly</b> — through their channel\u2019s About page or business email. There is no form on this site. Your message opens the case, and the approvers run the whole process from there.'},
+  {q:'Do all three really have to approve?',
+   a:'Yes. <b>Unanimous, 3/3, every time.</b> The approver you contacted votes first; if they pass, the other two vote independently. A single "no" closes the case and the reason is written down. Fix the issue and message again — that\u2019s the only path back.'},
+  {q:'Which approver should I message?',
+   a:'Any of them — your choice. Whoever says yes first becomes "vote 1/3" and forwards the case to the other two. Pick whoever matches your script\u2019s style; it makes the first conversation easier.'},
+  {q:'What should my first message include?',
+   a:'Script name, what it does, the Roblox asset ID, and <b>proof that it\u2019s yours or that you have permission</b> to share it. A short demo clip helps. Keep it honest — approvers test everything themselves anyway.'},
+  {q:'What gets a script rejected?',
+   a:'Backdoors, token loggers, malicious obfuscation, scripts you don\u2019t have permission to share, and scripts with no working source. Also: lying to an approver. That one bans you from the shell entirely.'},
+  {q:'How long does the vote take?',
+   a:'As long as it takes — the three channels review on their own schedules, and results are posted on Discord. No fake deadlines on this page, ever.'},
+  {q:'Why does this page show so few numbers?',
+   a:'Because most of the internet\u2019s "member counts" are screenshots from launch week. Everything here is either a real link, a real rule, or real data pulled live (like the Discord server stats below). The numbers that matter are structural: <b>3 approvers, 2 servers, 3/3 votes</b>.'},
+  {q:'Is this an official Roblox site?',
+   a:'No. Team Turtle is a fan-made network for showcase purposes, with no affiliation to Roblox Corporation. The channels and Discord servers belong to their respective owners.'}
+];
+
+/* ---------- REAL AVATARS via unavatar.io (fallback: numbered placeholder) ---------- */
+function avaHTML(yt,no,size,cls){
+  const src='https://unavatar.io/youtube/'+yt+'?fallback=false';
+  const fb='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="120" height="120" fill="#141414"/><rect x="5" y="5" width="110" height="110" fill="none" stroke="#2f2f2f" stroke-width="4"/><text x="60" y="78" font-family="Arial Black,Arial" font-size="40" font-weight="900" fill="#00ff85" text-anchor="middle">'+no+'</text></svg>');
+  return '<img class="'+cls+'" src="'+src+'" alt="Approver '+no+' — live avatar from YouTube" width="'+size+'" height="'+size+'" loading="lazy" referrerpolicy="no-referrer" data-fb="'+fb+'">';
+}
+function bindAvaFallback(root=document){
+  $$('img[data-fb]',root).forEach(img=>{
+    const swap=()=>{if(img.dataset.fb){img.src=img.dataset.fb;img.removeAttribute('data-fb')}};
+    if(img.complete&&img.naturalWidth===0)swap();
+    else img.addEventListener('error',swap,{once:true});
+  });
+}
+
+/* ---------- RENDER: APPROVERS ---------- */
+ $('#apprGrid').innerHTML=APPROVERS.map(a=>`
+<article class="appr rv">
+  <span class="appr-no" aria-hidden="true">${a.no}</span>
+  <div class="appr-top"><span class="appr-vote mono">VOTE ${a.no}/3</span></div>
+  ${avaHTML(a.yt,a.no,84,'')}
+  <h3 class="appr-name">${a.name}</h3>
+  <a class="appr-handle" href="${a.url}" target="_blank" rel="noopener">${a.handle}</a>
+  <p class="appr-desc">${a.desc}</p>
+  <div class="appr-veto"><span class="sq" style="background:var(--acc)"></span>VETO POWER: <b>YES</b> — ONE "NO" ENDS THE CASE</div>
+  <div class="appr-act">
+    <a class="btn btn-acc btn-sm" href="${a.url}/about" target="_blank" rel="noopener">CONTACT (ABOUT PAGE)</a>
+    <a class="btn btn-ghost btn-sm" href="${a.url}" target="_blank" rel="noopener">OPEN CHANNEL</a>
+  </div>
+</article>`).join('');
+
+/* ---------- RENDER: VOTE CHAIN ---------- */
+ $('#voteChain').innerHTML=
+  APPROVERS.map((a,i)=>`
+  <div class="vnode">
+    ${avaHTML(a.yt,a.no,52,'')}
+    <b>${a.handle}</b>
+    <span>VOTE ${i+1}/3 — INDEPENDENT</span>
+  </div>
+  ${i<2?'<span class="varrow" aria-hidden="true">→</span>':''}`).join('')+
+  '<span class="varrow" aria-hidden="true">→</span>'+
+  '<div class="vfinal"><b>3/3 = SHOWCASE</b><span class="mono">ANY "NO" = CASE CLOSED</span></div>';
+
+/* ---------- RENDER: FAQ ---------- */
+ $('#faqList').innerHTML=FAQ.map((f,i)=>`
+<article class="faq-item">
+  <button class="faq-q" type="button" aria-expanded="false">
+    <span class="fno mono">Q${String(i+1).padStart(2,'0')}</span>
+    <span class="fq">${f.q}</span>
+    <span class="tgl">${IC.plus}</span>
+  </button>
+  <div class="exp"><div><p class="faq-a">${f.a}</p></div></div>
+</article>`).join('');
+
+/* ---------- RENDER: DISCORD — real name & counts fetched live ---------- */
+ $('#dcGrid').innerHTML=SERVERS.map(d=>`
+<article class="dc-card rv" data-invite="${d.invite}">
+  <span class="dc-emo" aria-hidden="true">🐢</span>
+  <div class="dc-top">${IC.discord}<span class="dc-tag mono">${d.no}</span></div>
+  <h3 class="dc-name">CHECKING DISCORD<span class="caret">_</span></h3>
+  <p class="dc-live"><span class="pulse-dot"></span><span class="dc-live-txt">FETCHING LIVE DATA FROM DISCORD API…</span></p>
+  <div class="dc-inv">
+    <span class="mono">discord.gg/${d.invite}</span>
+    <button type="button" class="copy-btn copy-inv" data-url="${d.url}">${IC.copy} COPY INVITE</button>
+  </div>
+  <a class="btn btn-acc" href="${d.url}" target="_blank" rel="noopener" data-cursor="join">OPEN INVITE ON DISCORD ${IC.arr}</a>
+</article>`).join('');
+
+async function loadServerInfo(){
+  $$('.dc-card').forEach(async card=>{
+    const inv=card.dataset.invite;
+    const nameEl=card.querySelector('.dc-name');
+    const liveEl=card.querySelector('.dc-live-txt');
+    try{
+      const r=await fetch('https://discord.com/api/v9/invites/'+inv+'?with_counts=true');
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const d=await r.json();
+      if(d&&d.guild&&d.guild.name)nameEl.textContent=d.guild.name;
+      else nameEl.textContent='TEAM TURTLE — '+inv;
+      if(d&&d.approximate_member_count!=null){
+        const pres=d.approximate_presence_count!=null?' · '+(d.approximate_presence_count)+' ONLINE':'';
+        liveEl.textContent='≈ '+d.approximate_member_count.toLocaleString('en-US')+' MEMBERS'+pres+' — LIVE FROM DISCORD';
+        card.querySelector('.dc-live').classList.add('real');
+      }else{
+        liveEl.textContent='SERVER FOUND ON DISCORD — COUNTS HIDDEN BY ITS SETTINGS. OPEN THE INVITE TO SEE.';
+      }
+    }catch(err){
+      nameEl.textContent='TEAM TURTLE — '+inv;
+      liveEl.textContent='LIVE LOOKUP UNAVAILABLE FROM YOUR BROWSER — OPEN THE INVITE TO SEE THE REAL SERVER.';
+      console.warn('Discord live lookup failed for '+inv,err);
+    }
+  });
+}
+loadServerInfo();
+
+/* ---------- RENDER: HERO MARQUEE + TICKER ---------- */
+const teamItem=a=>`<a class="team-item" href="#approvers">${avaHTML(a.yt,a.no,44,'')}<span><b>${a.name}</b><span class="mono">${a.handle}</span></span></a>`;
+const teamSet=APPROVERS.map(teamItem).join('').repeat(3);
+ $('#teamTrack').innerHTML=teamSet+teamSet;
+(()=>{const t=$('#tkTrack'),s=t.firstElementChild;s.innerHTML+=s.innerHTML;t.appendChild(s.cloneNode(true))})();
+
+bindAvaFallback();
+
+/* ---------- TOASTS ---------- */
+function toast(title,sub){
+  const t=document.createElement('div');
+  t.className='toast';
+  t.innerHTML='<div><b>'+title+'</b><span>'+sub+'</span></div><button aria-label="Dismiss">'+IC.x+'</button>';
+  $('#toasts').appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  const kill=()=>{t.classList.remove('show');setTimeout(()=>t.remove(),500)};
+  t.querySelector('button').addEventListener('click',kill);
+  setTimeout(kill,4800);
+}
+
+/* ---------- CLOCK ---------- */
+function tick(){
+  const n=new Date(),pad=x=>String(x).padStart(2,'0');
+  const t=pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds());
+  $('#hdrClock').textContent=t;$('#footClock').textContent=t;
+}
+tick();setInterval(tick,1000);
+
+/* ---------- HEADER ---------- */
+const hdr=$('#hdr');
+function onScroll(){hdr.classList.toggle('scrolled',scrollY>24)}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ---------- ACTIVE NAV ---------- */
+const navLinks=$$('.hnav a');
+const secIO=new IntersectionObserver(es=>es.forEach(en=>{
+  if(en.isIntersecting)navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+en.target.id));
+}),{rootMargin:'-40% 0px -55% 0px'});
+['pipeline','approvers','discord','rules','faq'].forEach(id=>{const el=document.getElementById(id);if(el)secIO.observe(el)});
+
+/* ---------- MOBILE MENU ---------- */
+const menuBtn=$('#menuBtn');
+menuBtn.addEventListener('click',()=>{
+  const open=document.body.classList.toggle('menu-open');
+  menuBtn.setAttribute('aria-expanded',open);
+  $('#mMenu').setAttribute('aria-hidden',!open);
+});
+ $$('#mMenu a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('menu-open')));
+
+/* ---------- SPEC PARALLAX ---------- */
+if(matchMedia('(pointer:fine)').matches&&!reduced){
+  const spec=$('#spec'),emo=$('#specEmo');
+  let tx=0,ty=0,cx=0,cy=0;
+  spec.addEventListener('mousemove',e=>{
+    const r=spec.getBoundingClientRect();
+    tx=((e.clientX-r.left)/r.width-.5)*26;
+    ty=((e.clientY-r.top)/r.height-.5)*20;
+  });
+  spec.addEventListener('mouseleave',()=>{tx=0;ty=0});
+  (function pl(){
+    cx+=(tx-cx)*.06;cy+=(ty-cy)*.06;
+    emo.style.transform='translate3d('+cx+'px,'+cy+'px,0)';
+    requestAnimationFrame(pl);
+  })();
+}
+
+/* ---------- COPY INVITE ---------- */
+document.addEventListener('click',e=>{
+  const inv=e.target.closest('.copy-inv');
+  if(inv){
+    const txt=inv.dataset.url;
+    (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(
+      ()=>toast('INVITE COPIED 🐢',txt),
+      ()=>toast('COPY FAILED','Your browser blocked clipboard access — copy it manually.')
+    );
+  }
+});
+
+/* ---------- FAQ ACCORDION ---------- */
+ $('#faqList').addEventListener('click',e=>{
+  const q=e.target.closest('.faq-q');if(!q)return;
+  const item=q.parentElement,was=item.classList.contains('open');
+  $$('.faq-item.open').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-q').setAttribute('aria-expanded','false')});
+  if(!was){item.classList.add('open');q.setAttribute('aria-expanded','true')}
+});
+
+/* ---------- TERMINAL SIMULATION ---------- */
+(()=>{
+  const body=$('#termBody'),run=$('#termRun');
+  const LINES=[
+    {t:'$ turtle case --open',c:'t-cmd'},
+    {t:'case opened .................. [OK]',c:'t-out'},
+    {t:'permission check ............. PASSED',c:'t-ok'},
+    {t:'backdoor scan ................ 0 FINDINGS',c:'t-ok'},
+    {t:'vote 1/3 — @GekdakeShowcase .. YES',c:'t-ok'},
+    {t:'vote 2/3 — @builder_notreal .. YES',c:'t-ok'},
+    {t:'vote 3/3 — @justarandomPS5 ... YES',c:'t-ok'},
+    {t:'verdict ...................... 3/3 UNANIMOUS',c:'t-ok'},
+    {t:'showcase ..................... QUEUED',c:'t-out'},
+    {t:'discord ...................... ANNOUNCED — welcome to the shell_',c:'t-done'}
+  ];
+  let playing=false,played=false;
+  async function play(){
+    if(playing)return;playing=true;run.disabled=true;
+    body.innerHTML='';
+    for(const line of LINES){
+      const el=document.createElement('div');
+      el.className=line.c;
+      body.appendChild(el);
+      for(const ch of line.t){
+        el.textContent+=ch;
+        if(!reduced)await new Promise(r=>setTimeout(r,10));
+      }
+      if(!reduced)await new Promise(r=>setTimeout(r,140));
+    }
+    const c=document.createElement('span');c.className='tcaret';body.appendChild(c);
+    playing=false;run.disabled=false;
+  }
+  run.addEventListener('click',play);
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting&&!played){played=true;play();io.unobserve(body)}
+  }),{threshold:.35});
+  io.observe(body);
+})();
+
+/* ---------- FOOTER ---------- */
+ $('#yr').textContent=new Date().getFullYear();
+ $('#toTop').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+
+/* ---------- CUSTOM CURSOR (IRONWORKS-STYLE) ---------- */
+if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!reduced){
+  document.documentElement.classList.add('cursor-on');
+  const d=$('.cursor-dot'),r=$('.cursor-ring'),rl=$('.cursor-ring .cl');
+  let mx=innerWidth/2,my=innerHeight/2,dx=mx,dy=my,rx=mx,ry=my,shown=false;
+  addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    if(!shown){shown=true;d.style.opacity=1;r.style.opacity=1}
+  });
+  document.documentElement.addEventListener('mouseleave',()=>{d.style.opacity=0;r.style.opacity=0;shown=false});
+  (function loop(){
+    dx+=(mx-dx)*.4;dy+=(my-dy)*.4;rx+=(mx-rx)*.16;ry+=(my-ry)*.16;
+    d.style.transform='translate3d('+dx+'px,'+dy+'px,0) translate(-50%,-50%)';
+    r.style.transform='translate3d('+rx+'px,'+ry+'px,0) translate(-50%,-50%)';
+    requestAnimationFrame(loop);
+  })();
+  document.addEventListener('mouseover',e=>{
+    const lab=e.target.closest('[data-cursor]');
+    const act=e.target.closest('a,button,select,input,label');
+    if(lab){r.classList.add('lab');r.classList.remove('grow');rl.textContent=lab.dataset.cursor.toUpperCase()}
+    else{r.classList.remove('lab');r.classList.toggle('grow',!!act)}
+  });
+}
+
+}catch(err){
+  console.error('Team Turtle — init error:',err);
+  document.body.classList.remove('lock');
+  document.body.classList.add('loaded');
+  const pre=document.getElementById('pre');if(pre)pre.remove();
+  if(window.__ttInit)try{window.__ttInit()}catch(e2){}
+}
+</script>
+</body>
+</html>
